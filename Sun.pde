@@ -37,11 +37,11 @@ class Sun {
     popMatrix();
     
     // OSC Sends for sun
-    OscMessage sunn = new OscMessage("/sun");
-    sunn.add(sunSize);
-    sunn.add(sunRotationY);
-    sunn.add(sunRotationSpeed);
-    oscP5.send(sunn, myRemoteLocation);
+    OscMessage sunStats = new OscMessage("/sun");
+    sunStats.add(sunSize);
+    sunStats.add(sunRotationY);
+    sunStats.add(sunRotationSpeed);
+    oscP5.send(sunStats, myRemoteLocation);
   }
   
   void burst() {
@@ -54,6 +54,7 @@ class Sun {
       //translate(width/2, height/2);
       ellipseMode(CENTER);
       ellipse(width/2, height/2, sBurstW, sBurstH);
+      
       sBurstW *= 1.015;
       sBurstH *= 1.015;
       burstRed -= 1;
