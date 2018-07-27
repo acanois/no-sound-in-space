@@ -290,12 +290,6 @@ class Planet {
     pGreen = random(70, 255);
     pBlue = random(70, 255);
     
-    // Initialize emitter
-    emWidth = 250;
-    emHeight = 250;
-    emRed = emGreen = emBlue = 255;
-    emAlpha = 255;
-    
     moon = new Moon(65, 75, 15, planetColor);
   }
 
@@ -350,54 +344,6 @@ class Planet {
     ellipse(0, 0, posX/2, posZ/2);
     popMatrix();
     
-  }
-  
-  private void initialize_emitter() {
-    if (emWidth > 200) {
-      emWidth = 50;
-      emHeight = 50;
-      emRed = emGreen = emBlue = 255;
-    }
-  }
-
-  public void emitter_display() {
-    if (emWidth == 800) {
-      initialize_emitter();
-    }
-    pushMatrix();
-      pushStyle();
-//        noFill();
-//        strokeWeight(5);
-//        stroke(planetColor);
-//        translate(width/2, height/2);
-//        ellipseMode(CENTER);
-//        ellipse(posX, posZ, emWidth, emHeight);
-//        emWidth *= 1.05;
-//        emHeight *= 1.05;
-//        emRed *= 0.95;
-//        emGreen *= 0.95;
-//        emBlue *= 0.95;
-//        if (emWidth > 200) emWidth = emHeight = 50;
-      translate(width/2, height/2);
-      stroke(planetColor);
-      strokeWeight(5);
-      ellipseMode(CENTER);
-      ellipse(posX, posZ, emWidth, emHeight);
-      popStyle();
-    popMatrix();
-  }
-  
-  public void emitter_fade() {
-    pushMatrix();
-    pushStyle();
-    noFill();
-    strokeWeight(5);
-    stroke(planetColor);
-    translate(width/2, height/2);
-    ellipseMode(CENTER);
-    ellipse(posX, posZ, emWidth, emHeight);
-    popStyle();
-    popMatrix();
   }
     
   public void orbit_path() {
