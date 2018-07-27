@@ -13,23 +13,6 @@ Sun sun = new Sun();
 
 int zeroSun;
 
-// Stars parameters
-int           depth         = 40;
-int           nbStarsMax    = 5000;
-Stars[]       tabStars      = new Stars[nbStarsMax];
-int           maxStarsSpeed = 5;
- 
-// Drawing parameters
-int           sizeX        = 1440;
-int           sizeY        = 850;
-int           taille       = 1;
-int           transparency = 255;
- 
-// Rotation variable
-int           rotationMode = 3;
-float         angle        = 0;
-float         delta        = radians(0.25);
-
 // Planet properties
 float planetDistanceX;
 float planetDistanceZ;
@@ -45,7 +28,6 @@ float cameraTheta;
 float cameraOrbitSpeed;
 
 // OSC variables
-int emitter;
 int pHighlight;
 
 void setup() {
@@ -53,14 +35,7 @@ void setup() {
   smooth(8);
   frameRate(60);
   
-  // Stars
-  for (int i = 0; i < nbStarsMax; i++) {
-    tabStars[i] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
-                           (-random(depth * 255)), random(1, maxStarsSpeed));
-  }
-  
   // Emitter initialization
-  emitter = 0;
   pHighlight = 0;
   
   cameraX = 700;
@@ -101,23 +76,11 @@ void setup() {
 void draw() {
   background(0);
   
-  translate(width/2, height/2);
-  for(int nb = 0; nb <nbStarsMax; nb++) {
-    tabStars[nb].aff();
-  }
-  
   // Camera
-  beginCamera();
-  perspective();
-  if (mousePressed && mouseButton == LEFT) {
-    cameraX = mouseX;
-    cameraZ = mouseY;
-  }
-    
+  beginCamera();    
   cameraTheta += cameraOrbitSpeed;
   cameraX = cameraRadX * cos(cameraTheta);
   cameraZ = cameraRadZ * sin(cameraTheta);
-    
   camera(cameraX, cameraY, cameraZ / cameraTan, width/2, height/2, 0, 0, 1, 0);
   endCamera();
  
@@ -131,13 +94,6 @@ void draw() {
     planet[i].planet_distance();
   }
   
-  // Triggers emitters
-  /*if (emitter == 1) planet[0].emitter_display();
-  if (emitter == 2) planet[1].emitter_display();
-  if (emitter == 3) planet[2].emitter_display();
-  if (emitter == 4) planet[3].emitter_display();
-  if (emitter == 5) planet[4].emitter_display();*/
-  
   // Triggers highlights
   if (pHighlight == 0) {
     for (int i = 0; i < 5; i++) {
@@ -145,34 +101,24 @@ void draw() {
     }
   }
   if (pHighlight == 1) {
-    planet[0].initialize_emitter();
     planet[0].dist_highlight();
     planet[0].orbit_highlight();
-    planet[0].emitter_display();
   } 
   if (pHighlight == 2) {
-    planet[1].initialize_emitter();
     planet[1].dist_highlight();
     planet[1].orbit_highlight();
-    planet[1].emitter_display();
   } 
   if (pHighlight == 3) {
-    planet[2].initialize_emitter();
     planet[2].dist_highlight();
     planet[2].orbit_highlight();
-    planet[2].emitter_display();
   } 
   if (pHighlight == 4) {
-    planet[3].initialize_emitter();
     planet[3].dist_highlight();
     planet[3].orbit_highlight();
-    planet[3].emitter_display();
   } 
   if (pHighlight == 5) {
-    planet[4].initialize_emitter();
     planet[4].dist_highlight();
     planet[4].orbit_highlight();
-    planet[4].emitter_display();
   } 
 
   // OSC Sends to Max for Planets
@@ -198,23 +144,6 @@ void draw() {
 
 // OSC Reciever from Max
 void oscEvent(OscMessage theOscMessage) {
-  // Check if theOscMessage has the address pattern we are looking for. 
-  if (theOscMessage.checkAddrPattern("/emit1") == true) {
-    emitter = 1;
-  }
-  if (theOscMessage.checkAddrPattern("/emit2") == true) {
-    emitter = 2; 
-  }
-  if (theOscMessage.checkAddrPattern("/emit3") == true) {
-    emitter = 3;
-  }
-  if (theOscMessage.checkAddrPattern("/emit4") == true) {
-    emitter = 4;
-  }
-  if (theOscMessage.checkAddrPattern("/emit5") == true) {
-    emitter = 5;
-  }
-  
   // Planet highlights
   if (theOscMessage.checkAddrPattern("/highlight0") == true) {
     pHighlight = 0;

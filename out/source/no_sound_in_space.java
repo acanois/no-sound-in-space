@@ -31,23 +31,11 @@ Planet[] planet = new Planet[5];
 Sun sun = new Sun();
 
 int zeroSun;
-
-// Stars parameters
-int           depth         = 40;
-int           nbStarsMax    = 5000;
-Stars[]       tabStars      = new Stars[nbStarsMax];
-int           maxStarsSpeed = 5;
  
-// Drawing parameters
-int           sizeX        = 1440;
-int           sizeY        = 850;
-int           taille       = 1;
-int           transparency = 255;
- 
-// Rotation variable
-int           rotationMode = 3;
-float         angle        = 0;
-float         delta        = radians(0.25f);
+// // Rotation variable
+// int           rotationMode = 3;
+// float         angle        = 0;
+// float         delta        = radians(0.25);
 
 // Planet properties
 float planetDistanceX;
@@ -64,7 +52,6 @@ float cameraTheta;
 float cameraOrbitSpeed;
 
 // OSC variables
-int emitter;
 int pHighlight;
 
 public void setup() {
@@ -72,14 +59,7 @@ public void setup() {
   
   frameRate(60);
   
-  // Stars
-  for (int i = 0; i < nbStarsMax; i++) {
-    tabStars[i] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
-                           (-random(depth * 255)), random(1, maxStarsSpeed));
-  }
-  
   // Emitter initialization
-  emitter = 0;
   pHighlight = 0;
   
   cameraX = 700;
@@ -90,6 +70,12 @@ public void setup() {
   cameraRadZ = 600;
   cameraTheta = 0;
   cameraOrbitSpeed = 0.001f;
+  
+  int red = color(170, 0, 0);
+  int green = color(0, 170, 0);
+  int blue = color(0, 0, 170);
+  int yellow = color(170, 170, 0);
+  int purple = color(170, 0, 170);
   
   // Initializing planet size and orbit distance
   for (int i = 0; i < planet.length; i++) {
@@ -114,22 +100,11 @@ public void setup() {
 public void draw() {
   background(0);
   
-  translate(width/2, height/2);
-  for(int nb=0; nb<nbStarsMax; nb++) {
-    tabStars[nb].aff();
-  }
   // Camera
-  beginCamera();
-  perspective();
-  if (mousePressed && mouseButton == LEFT) {
-    cameraX = mouseX;
-    cameraZ = mouseY;
-  }
-    
+  beginCamera();    
   cameraTheta += cameraOrbitSpeed;
   cameraX = cameraRadX * cos(cameraTheta);
   cameraZ = cameraRadZ * sin(cameraTheta);
-    
   camera(cameraX, cameraY, cameraZ / cameraTan, width/2, height/2, 0, 0, 1, 0);
   endCamera();
  
@@ -143,13 +118,6 @@ public void draw() {
     planet[i].planet_distance();
   }
   
-  // Triggers emitters
-  /*if (emitter == 1) planet[0].emitter_display();
-  if (emitter == 2) planet[1].emitter_display();
-  if (emitter == 3) planet[2].emitter_display();
-  if (emitter == 4) planet[3].emitter_display();
-  if (emitter == 5) planet[4].emitter_display();*/
-  
   // Triggers highlights
   if (pHighlight == 0) {
     for (int i = 0; i < 5; i++) {
@@ -157,34 +125,24 @@ public void draw() {
     }
   }
   if (pHighlight == 1) {
-    planet[0].initialize_emitter();
     planet[0].dist_highlight();
     planet[0].orbit_highlight();
-    planet[0].emitter_display();
   } 
   if (pHighlight == 2) {
-    planet[1].initialize_emitter();
     planet[1].dist_highlight();
     planet[1].orbit_highlight();
-    planet[1].emitter_display();
   } 
   if (pHighlight == 3) {
-    planet[2].initialize_emitter();
     planet[2].dist_highlight();
     planet[2].orbit_highlight();
-    planet[2].emitter_display();
   } 
   if (pHighlight == 4) {
-    planet[3].initialize_emitter();
     planet[3].dist_highlight();
     planet[3].orbit_highlight();
-    planet[3].emitter_display();
   } 
   if (pHighlight == 5) {
-    planet[4].initialize_emitter();
     planet[4].dist_highlight();
     planet[4].orbit_highlight();
-    planet[4].emitter_display();
   } 
 
   // OSC Sends to Max for Planets
@@ -210,23 +168,6 @@ public void draw() {
 
 // OSC Reciever from Max
 public void oscEvent(OscMessage theOscMessage) {
-  // Check if theOscMessage has the address pattern we are looking for. 
-  if (theOscMessage.checkAddrPattern("/emit1") == true) {
-    emitter = 1;
-  }
-  if (theOscMessage.checkAddrPattern("/emit2") == true) {
-    emitter = 2; 
-  }
-  if (theOscMessage.checkAddrPattern("/emit3") == true) {
-    emitter = 3;
-  }
-  if (theOscMessage.checkAddrPattern("/emit4") == true) {
-    emitter = 4;
-  }
-  if (theOscMessage.checkAddrPattern("/emit5") == true) {
-    emitter = 5;
-  }
-  
   // Planet highlights
   if (theOscMessage.checkAddrPattern("/highlight0") == true) {
     pHighlight = 0;
@@ -551,34 +492,6 @@ class Planet {
     }
     println("### received an osc message. with address pattern "+
       theOscMessage.addrPattern()+" typetag "+ theOscMessage.typetag());
-  }
-}
-class Stars {
-  float x, y, z;
-  float dZ;
-   
-  Stars(float coordX, float coordY, float coordZ, float speedZ) {
-    x  = coordX; 
-    y  = coordY; 
-    z  = coordZ; 
-    dZ = speedZ;
-  }
-   
-  public void aff() {
-    translate(0, 0, 20);
-    pushMatrix();
-    pushStyle();
-    strokeWeight(3);
-    stroke(250+z/depth,transparency);
-    point(x,y,z);
-    popStyle();
-    popMatrix();
-  }
-   
-  public void anim() {
-    z = z + dZ;
-    if(z>=0)
-      z = -1023.0f;
   }
 }
 // Sun
