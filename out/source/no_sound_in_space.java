@@ -55,9 +55,8 @@ int pHighlight;
 public void setup() {
   
   
-  frameRate(60);
-
   
+  frameRate(60);
   
   // Emitter initialization
   pHighlight = 0;
@@ -590,7 +589,7 @@ class Sun {
           theOscMessage.addrPattern()+" typetag "+ theOscMessage.typetag());
   }
 }
-  public void settings() {  size(1440, 850, OPENGL);  smooth(8);  pixelDensity(2); }
+  public void settings() {  size(1440, 850, P3D);  smooth(8);  pixelDensity(displayDensity()); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "no_sound_in_space" };
     if (passedArgs != null) {

@@ -33,11 +33,10 @@ float cameraOrbitSpeed;
 int pHighlight;
 
 void setup() {
-  size(1440, 850, OPENGL);
+  size(1440, 850, P3D);
+  pixelDensity(displayDensity());
   smooth(8);
   frameRate(60);
-
-  pixelDensity(2);
   
   // Emitter initialization
   pHighlight = 0;
