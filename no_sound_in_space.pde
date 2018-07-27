@@ -1,6 +1,8 @@
 // No Sound In Space V3 - 3D, Wireframe
 // David Richter - 8/23/2013
 
+import java.util.Arrays;
+
 import oscP5.*;
 import netP5.*;
 
@@ -34,6 +36,8 @@ void setup() {
   size(1440, 850, OPENGL);
   smooth(8);
   frameRate(60);
+
+  pixelDensity(2);
   
   // Emitter initialization
   pHighlight = 0;
@@ -122,23 +126,19 @@ void draw() {
   } 
 
   // OSC Sends to Max for Planets
-  for (int i = 0; i < planets.length; i++) {
-    OscMessage planetI = new OscMessage("/planet" + i);
-    planetI.add(planets[i].theta);           // Theta
-    
-    planetI.add(planets[i].radX);            // X Radius
-    planetI.add(planets[i].radZ);            // Z Radius
-    
-    planetI.add(planets[i].posX);            // X location
-    planetI.add(planets[i].posZ);            // Z location
-    
-    planetI.add(planets[i].rotationY);       // Y rotation
-    
-    planetI.add(planets[i].rotationSpeed);   // Rotation Speed
-    planetI.add(planets[i].diameter);        // Planet diameter
-    planetI.add(planets[i].orbitspeed);      // Planet orbit speed
-    planetI.add(planets[i].planetColor);     // Planet Color
-    oscP5.send(planetI, myRemoteLocation);
+  for (Planet planet : planets) {
+    OscMessage planetStats = new OscMessage("/planet" + Arrays.asList(planets).indexOf(planet));
+    planetStats.add(planet.theta);           // Theta
+    planetStats.add(planet.radX);            // X Radius
+    planetStats.add(planet.radZ);            // Z Radius
+    planetStats.add(planet.posX);            // X location
+    planetStats.add(planet.posZ);            // Z location
+    planetStats.add(planet.rotationY);       // Y rotation
+    planetStats.add(planet.rotationSpeed);   // Rotation Speed
+    planetStats.add(planet.diameter);        // Planet diameter
+    planetStats.add(planet.orbitspeed);      // Planet orbit speed
+    planetStats.add(planet.planetColor);     // Planet Color
+    oscP5.send(planetStats, myRemoteLocation);
   }  
 }
 

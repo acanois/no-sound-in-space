@@ -547,7 +547,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 687.0, 359.0, 30.0, 30.0 ],
-									"presentation_rect" : [ 687.0, 358.0, 0.0, 0.0 ],
 									"style" : ""
 								}
 
@@ -18650,7 +18649,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 34.0, 78.0, 1416.0, 763.0 ],
+						"rect" : [ 34.0, 78.0, 1197.0, 763.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -18678,6 +18677,18 @@
 						"style" : "",
 						"subpatcher_template" : "",
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-132",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 115.190491, 115.0, 34.0, 22.0 ],
+									"style" : "",
+									"text" : "print"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"fontname" : "Arial",
 									"fontsize" : 12.0,
@@ -22139,7 +22150,16 @@
 							}
 , 							{
 								"patchline" : 								{
+									"destination" : [ "obj-132", 0 ],
+									"order" : 0,
+									"source" : [ "obj-12", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-35", 0 ],
+									"order" : 1,
 									"source" : [ "obj-12", 0 ]
 								}
 
@@ -27421,8 +27441,8 @@
 											}
 , 											{
 												"box" : 												{
-													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 3500.10083, 0.0, 0, 6766.983398, 0.573333, 0, 10236.231445, 0.0, 0 ],
-													"domain" : 10236.220703,
+													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 2315.451172, 0.0, 0, 4476.619629, 0.573333, 0, 6771.660156, 0.0, 0 ],
+													"domain" : 6771.65332,
 													"id" : "obj-43",
 													"maxclass" : "function",
 													"numinlets" : 1,
@@ -27485,8 +27505,8 @@
 											}
 , 											{
 												"box" : 												{
-													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 2806.140869, 0.0, 0, 5329.491211, 0.506667, 0, 8179.138184, 0.0, 0 ],
-													"domain" : 8179.133789,
+													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 2583.270508, 0.0, 0, 4906.210449, 0.506667, 0, 7529.531738, 0.0, 0 ],
+													"domain" : 7529.527344,
 													"id" : "obj-41",
 													"maxclass" : "function",
 													"numinlets" : 1,
@@ -27549,8 +27569,8 @@
 											}
 , 											{
 												"box" : 												{
-													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 4795.804199, 0.0, 0, 9237.504883, 0.52, 0, 13917.333984, 0.0, 0 ],
-													"domain" : 13917.323242,
+													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 617.281738, 0.0, 0, 1188.985718, 0.52, 0, 1791.339966, 0.0, 0 ],
+													"domain" : 1791.338623,
 													"id" : "obj-39",
 													"maxclass" : "function",
 													"numinlets" : 1,
@@ -27613,8 +27633,8 @@
 											}
 , 											{
 												"box" : 												{
-													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 2854.724609, 0.0, 0, 5334.571777, 0.533333, 0, 8179.14502, 0.0, 0 ],
-													"domain" : 8179.133789,
+													"addpoints" : [ 0.0, 0.0, 0, 0.0, 1.0, 0, 1154.256836, 0.0, 0, 2156.938721, 0.533333, 0, 3307.091309, 0.0, 0 ],
+													"domain" : 3307.08667,
 													"id" : "obj-37",
 													"maxclass" : "function",
 													"numinlets" : 1,
@@ -27943,8 +27963,8 @@
 											}
 , 											{
 												"box" : 												{
-													"addpoints" : [ 0.0, 0.0, 0, 414.250031, 1.0, 0, 1242.750122, 0.333333, 0, 2303.230957, 0.146667, 0, 3330.570557, 0.053333, 0, 6230.321289, 0.0, 0 ],
-													"domain" : 6230.314941,
+													"addpoints" : [ 0.0, 0.0, 0, 26.800592, 1.0, 0, 80.401787, 0.333333, 0, 5305.071777, 0.146667, 0, 7671.361816, 0.053333, 0, 14350.408203, 0.0, 0 ],
+													"domain" : 14350.393555,
 													"id" : "obj-75",
 													"maxclass" : "function",
 													"numinlets" : 1,
@@ -33094,45 +33114,45 @@
 			}
  ],
 		"parameters" : 		{
+			"obj-89::obj-33::obj-70" : [ "live.dial[27]", "live.dial", 0 ],
+			"obj-89::obj-14" : [ "live.dial[22]", "live.dial[8]", 0 ],
+			"obj-90::obj-33::obj-70" : [ "live.dial[31]", "live.dial", 0 ],
+			"obj-96::obj-75::obj-48" : [ "live.dial[50]", "live.dial[1]", 0 ],
+			"obj-68::obj-17" : [ "live.dial[15]", "live.dial[8]", 0 ],
+			"obj-32::obj-70" : [ "live.dial[25]", "live.dial", 0 ],
+			"obj-70" : [ "live.dial", "live.dial", 0 ],
+			"obj-96::obj-79::obj-48" : [ "live.dial[45]", "live.dial[1]", 0 ],
 			"obj-56::obj-70" : [ "live.dial[23]", "live.dial", 0 ],
-			"obj-12::obj-70" : [ "live.dial[9]", "live.dial", 0 ],
-			"obj-88::obj-17" : [ "live.dial[21]", "live.dial[8]", 0 ],
+			"obj-89::obj-17" : [ "live.dial[28]", "live.dial[8]", 0 ],
 			"obj-80::obj-94" : [ "live.dial[7]", "live.dial[6]", 0 ],
 			"obj-80::obj-93" : [ "live.dial[10]", "live.dial[6]", 0 ],
-			"obj-89::obj-14" : [ "live.dial[22]", "live.dial[8]", 0 ],
-			"obj-32::obj-70" : [ "live.dial[25]", "live.dial", 0 ],
-			"obj-96::obj-68::obj-48" : [ "live.dial[1]", "live.dial[1]", 0 ],
-			"obj-96::obj-1::obj-48" : [ "live.dial[52]", "live.dial[1]", 0 ],
-			"obj-80::obj-46::obj-37::obj-70" : [ "live.dial[35]", "live.dial", 0 ],
-			"obj-96::obj-73::obj-48" : [ "live.dial[49]", "live.dial[1]", 0 ],
-			"obj-80::obj-92" : [ "live.dial[6]", "live.dial[6]", 0 ],
-			"obj-89::obj-17" : [ "live.dial[28]", "live.dial[8]", 0 ],
-			"obj-30::obj-70" : [ "live.dial[24]", "live.dial", 0 ],
-			"obj-5" : [ "live.dial[11]", "live.dial", 0 ],
-			"obj-80::obj-46::obj-44::obj-70" : [ "live.dial[37]", "live.dial", 0 ],
-			"obj-90::obj-33::obj-70" : [ "live.dial[31]", "live.dial", 0 ],
-			"obj-7::obj-70" : [ "live.dial[4]", "live.dial", 0 ],
-			"obj-89::obj-33::obj-70" : [ "live.dial[27]", "live.dial", 0 ],
-			"obj-50::obj-70" : [ "live.dial[32]", "live.dial", 0 ],
-			"obj-86::obj-33::obj-70" : [ "live.dial[18]", "live.dial", 0 ],
-			"obj-88::obj-33::obj-70" : [ "live.dial[20]", "live.dial", 0 ],
-			"obj-86::obj-14" : [ "live.dial[17]", "live.dial[8]", 0 ],
-			"obj-54::obj-70" : [ "live.dial[34]", "live.dial", 0 ],
-			"obj-77::obj-70" : [ "live.dial[36]", "live.dial", 0 ],
-			"obj-22::obj-70" : [ "live.dial[19]", "live.dial", 0 ],
-			"obj-68::obj-33::obj-70" : [ "live.dial[16]", "live.dial", 0 ],
-			"obj-86::obj-17" : [ "live.dial[14]", "live.dial[8]", 0 ],
-			"obj-96::obj-77::obj-48" : [ "live.dial[51]", "live.dial[1]", 0 ],
 			"obj-52::obj-70" : [ "live.dial[33]", "live.dial", 0 ],
+			"obj-86::obj-33::obj-70" : [ "live.dial[18]", "live.dial", 0 ],
+			"obj-86::obj-14" : [ "live.dial[17]", "live.dial[8]", 0 ],
+			"obj-7::obj-70" : [ "live.dial[4]", "live.dial", 0 ],
+			"obj-80::obj-92" : [ "live.dial[6]", "live.dial[6]", 0 ],
+			"obj-30::obj-70" : [ "live.dial[24]", "live.dial", 0 ],
 			"obj-90::obj-17" : [ "live.dial[30]", "live.dial[8]", 0 ],
+			"obj-5" : [ "live.dial[11]", "live.dial", 0 ],
+			"obj-96::obj-1::obj-48" : [ "live.dial[52]", "live.dial[1]", 0 ],
+			"obj-77::obj-70" : [ "live.dial[36]", "live.dial", 0 ],
+			"obj-86::obj-17" : [ "live.dial[14]", "live.dial[8]", 0 ],
 			"obj-90::obj-14" : [ "live.dial[29]", "live.dial[8]", 0 ],
-			"obj-73" : [ "live.gain~", "live.gain~", 0 ],
-			"obj-96::obj-79::obj-48" : [ "live.dial[45]", "live.dial[1]", 0 ],
-			"obj-68::obj-17" : [ "live.dial[15]", "live.dial[8]", 0 ],
-			"obj-96::obj-75::obj-48" : [ "live.dial[50]", "live.dial[1]", 0 ],
-			"obj-88::obj-14" : [ "live.dial[26]", "live.dial[8]", 0 ],
+			"obj-12::obj-70" : [ "live.dial[9]", "live.dial", 0 ],
+			"obj-96::obj-73::obj-48" : [ "live.dial[49]", "live.dial[1]", 0 ],
+			"obj-50::obj-70" : [ "live.dial[32]", "live.dial", 0 ],
+			"obj-96::obj-77::obj-48" : [ "live.dial[51]", "live.dial[1]", 0 ],
 			"obj-68::obj-14" : [ "live.dial[8]", "live.dial[8]", 0 ],
-			"obj-70" : [ "live.dial", "live.dial", 0 ]
+			"obj-22::obj-70" : [ "live.dial[19]", "live.dial", 0 ],
+			"obj-88::obj-33::obj-70" : [ "live.dial[20]", "live.dial", 0 ],
+			"obj-88::obj-14" : [ "live.dial[26]", "live.dial[8]", 0 ],
+			"obj-96::obj-68::obj-48" : [ "live.dial[1]", "live.dial[1]", 0 ],
+			"obj-68::obj-33::obj-70" : [ "live.dial[16]", "live.dial", 0 ],
+			"obj-80::obj-46::obj-37::obj-70" : [ "live.dial[35]", "live.dial", 0 ],
+			"obj-80::obj-46::obj-44::obj-70" : [ "live.dial[37]", "live.dial", 0 ],
+			"obj-73" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-88::obj-17" : [ "live.dial[21]", "live.dial[8]", 0 ],
+			"obj-54::obj-70" : [ "live.dial[34]", "live.dial", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
