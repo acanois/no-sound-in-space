@@ -8,7 +8,7 @@ OscP5 oscP5;
 OscP5 oscP52;
 NetAddress myRemoteLocation;
 
-Planet[] planet = new Planet[5];
+Planet[] planets = new Planet[5];
 Sun sun = new Sun();
 
 int zeroSun;
@@ -54,7 +54,7 @@ void setup() {
   color purple = color(170, 0, 170);
   
   // Initializing planet size and orbit distance
-  for (int i = 0; i < planet.length; i++) {
+  for (int i = 0; i < planets.length; i++) {
     planetDistanceX = 297 + i * 300;
     planetDistanceZ = 203 + i * 250;
     planetSize = random(25, 50);
@@ -63,7 +63,7 @@ void setup() {
     planetColor[2] = color(170, 170, 0);
     planetColor[3] = color(0, 170, 0);
     planetColor[4] = color(90, 0, 170);
-    planet[i] = new Planet(planetDistanceX, planetDistanceZ, planetSize, planetColor[i]);
+    planets[i] = new Planet(planetDistanceX, planetDistanceZ, planetSize, planetColor[i]);
   }
   
 
@@ -73,71 +73,71 @@ void setup() {
   myRemoteLocation = new NetAddress("127.0.0.1", 12000);
 }
 
-void draw() {
-  background(0);
-  
-  // Camera
-  beginCamera();    
+void updateCamera() { 
   cameraTheta += cameraOrbitSpeed;
   cameraX = cameraRadX * cos(cameraTheta);
   cameraZ = cameraRadZ * sin(cameraTheta);
   camera(cameraX, cameraY, cameraZ / cameraTan, width/2, height/2, 0, 0, 1, 0);
-  endCamera();
+}
+
+void draw() {
+  background(0);
+
+  updateCamera();
  
   sun.display();
 
-  // Drawing planets
-  for (int i = 0; i < planet.length; i++) {
-    planet[i].orbit_path(); 
-    planet[i].update();
-    planet[i].display();
-    planet[i].planet_distance();
+  for (Planet planet : planets) {
+    planet.orbit_path();
+    planet.update();
+    planet.display();
+    planet.planet_distance();
   }
   
   // Triggers highlights
   if (pHighlight == 0) {
     for (int i = 0; i < 5; i++) {
-      planet[i].orbit_path();
+      planets[i].orbit_path();
     }
   }
   if (pHighlight == 1) {
-    planet[0].dist_highlight();
-    planet[0].orbit_highlight();
+    planets[0].dist_highlight();
+    planets[0].orbit_highlight();
   } 
   if (pHighlight == 2) {
-    planet[1].dist_highlight();
-    planet[1].orbit_highlight();
+    planets[1].dist_highlight();
+    planets[1].orbit_highlight();
   } 
   if (pHighlight == 3) {
-    planet[2].dist_highlight();
-    planet[2].orbit_highlight();
+    planets[2].dist_highlight();
+    planets[2].orbit_highlight();
   } 
   if (pHighlight == 4) {
-    planet[3].dist_highlight();
-    planet[3].orbit_highlight();
+    planets[3].dist_highlight();
+    planets[3].orbit_highlight();
   } 
   if (pHighlight == 5) {
-    planet[4].dist_highlight();
-    planet[4].orbit_highlight();
+    planets[4].dist_highlight();
+    planets[4].orbit_highlight();
   } 
 
   // OSC Sends to Max for Planets
-  for (int i = 0; i < planet.length; i++) {
+  for (int i = 0; i < planets.length; i++) {
     OscMessage planetI = new OscMessage("/planet" + i);
-    planetI.add(planet[i].theta);           // Theta
+    planetI.add(planets[i].theta);           // Theta
     
-    planetI.add(planet[i].radX);            // X Radius
-    planetI.add(planet[i].radZ);            // Z Radius
+    planetI.add(planets[i].radX);            // X Radius
+    planetI.add(planets[i].radZ);            // Z Radius
     
-    planetI.add(planet[i].posX);            // X location
-    planetI.add(planet[i].posZ);            // Z location
+    planetI.add(planets[i].posX);            // X location
+    planetI.add(planets[i].posZ);            // Z location
     
-    planetI.add(planet[i].rotationY);       // Y rotation
+    planetI.add(planets[i].rotationY);       // Y rotation
     
-    planetI.add(planet[i].rotationSpeed);   // Rotation Speed
-    planetI.add(planet[i].diameter);        // Planet diameter
-    planetI.add(planet[i].orbitspeed);      // Planet orbit speed
-    planetI.add(planet[i].planetColor);     // Planet Color
+    planetI.add(planets[i].rotationSpeed);   // Rotation Speed
+    planetI.add(planets[i].diameter);        // Planet diameter
+    planetI.add(planets[i].orbitspeed);      // Planet orbit speed
+    planetI.add(planets[i].planetColor);     // Planet Color
     oscP5.send(planetI, myRemoteLocation);
   }  
 }
