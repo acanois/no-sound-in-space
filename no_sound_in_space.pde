@@ -20,22 +20,22 @@ Stars[]       tabStars      = new Stars[nbStarsMax];
 int           maxStarsSpeed = 5;
  
 // Drawing parameters
-int           sizeX = 1440;
-int           sizeY = 850;
-int           taille = 1;
+int           sizeX        = 1440;
+int           sizeY        = 850;
+int           taille       = 1;
 int           transparency = 255;
  
 // Rotation variable
 int           rotationMode = 3;
-float         angle = 0;
-float         delta = radians(0.25);
+float         angle        = 0;
+float         delta        = radians(0.25);
 
 // Planet properties
 float planetDistanceX;
 float planetDistanceZ;
 float planetSize;
-color[] planetColor = new color[5];
-color[] moonColor = new color[5];
+color[] planetColor        = new color[5];
+color[] moonColor          = new color[5];
 
 // Camera
 float cameraX, cameraY, cameraZ;
@@ -54,9 +54,9 @@ void setup() {
   frameRate(60);
   
   // Stars
-  for(int nb=0; nb<nbStarsMax; nb++) {
-    tabStars[nb] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
-                               (-random(depth * 255)), random(1, maxStarsSpeed));
+  for (int i = 0; i < nbStarsMax; i++) {
+    tabStars[i] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
+                           (-random(depth * 255)), random(1, maxStarsSpeed));
   }
   
   // Emitter initialization
@@ -71,6 +71,12 @@ void setup() {
   cameraRadZ = 600;
   cameraTheta = 0;
   cameraOrbitSpeed = 0.001;
+  
+  color red = color(170, 0, 0);
+  color green = color(0, 170, 0);
+  color blue = color(0, 0, 170);
+  color yellow = color(170, 170, 0);
+  color purple = color(170, 0, 170);
   
   // Initializing planet size and orbit distance
   for (int i = 0; i < planet.length; i++) {
@@ -96,9 +102,10 @@ void draw() {
   background(0);
   
   translate(width/2, height/2);
-  for(int nb=0; nb<nbStarsMax; nb++) {
+  for(int nb = 0; nb <nbStarsMax; nb++) {
     tabStars[nb].aff();
   }
+  
   // Camera
   beginCamera();
   perspective();
