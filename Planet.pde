@@ -1,6 +1,7 @@
 //// Planet Class
 
 class Planet {
+  
   float posX, posZ;  // X and Z position for planets
   float radX, radZ;  // X and Z orbit radii for planets
   float rotationY;   // Planet rotation
