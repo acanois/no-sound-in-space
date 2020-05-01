@@ -48,10 +48,6 @@ float cameraTan = tan(PI/8.0);
 float cameraTheta = 0;
 float cameraOrbitSpeed = 0.001;
 
-// OSC variables
-int emitter;
-int pHighlight;
-
 void setup() {
   size(1280, 720, OPENGL);
   smooth(8);
@@ -65,11 +61,6 @@ void setup() {
                              random(1, maxStarsSpeed));
   }
   
-  // Emitter initialization
-  emitter = 0;
-  pHighlight = 0;
-  
-  // Initializing planet size and orbit distance
   for (int i = 0; i < orbiters.length; ++i) {
     planetDist.x = 297 + i * 300;
     planetDist.z = 203 + i * 250;
@@ -84,14 +75,26 @@ void setup() {
   myRemoteLocation = new NetAddress("127.0.0.1", 15000);
 }
 
-void draw() {
-  background(0);
-  
-  translate(width/2, height/2);
-  for(int nb = 0; nb < nbStarsMax; nb++) {
-    tabStars[nb].aff();
-  }
-  // Camera
+void sendParameters() {
+  for (int i = 0; i < orbiters.length; i++) {
+    OscMessage planetI = new OscMessage("/planet" + i);
+    planetI.add(orbiters[i].theta);           
+    planetI.add(orbiters[i].orbitRadius.x);
+    planetI.add(orbiters[i].orbitRadius.z);
+    planetI.add(orbiters[i].position.x);
+    planetI.add(orbiters[i].position.z);
+    planetI.add(orbiters[i].rotation.y);
+    planetI.add(orbiters[i].rotationSpeed);
+    planetI.add(orbiters[i].diameter);
+    planetI.add(orbiters[i].orbitSpeed);
+    planetI.add(orbiters[i].orbiterColor);
+
+    oscP5.send(planetI, myRemoteLocation);
+  }  
+}
+
+void updateCamera() {
+    // Camera
   beginCamera();
   perspective();
     
@@ -101,7 +104,18 @@ void draw() {
     
   camera(camPos.x, camPos.y, camPos.z / cameraTan, width/2, height/2, 0, 0, 1, 0);
   endCamera();
- 
+}
+
+void updateStars() {
+    for(int i = 0; i < nbStarsMax; ++i) {
+    tabStars[i].aff();
+  }
+}
+
+void draw() {
+  background(0);
+  updateStars();
+  updateCamera();
   sun.display();
 
   for (Orbiter orbiter : orbiters) {
@@ -110,98 +124,11 @@ void draw() {
     orbiter.display();
     orbiter.planetDistance();
   }
-  
-  // Triggers emitters
-  /*if (emitter ==;
-  if (emitter == 2) planet[1].emitter_display();
-  if (emitter == 3) planet[2].emitter_display();
-  if (emitter == 4) planet[3].emitter_display();
-  if (emitter == 5) planet[4].emitter_display();*/
-  
-  // Triggers highlights
-  if (pHighlight == 0) {
-    for (int i = 0; i < 5; i++) {
-      orbiters[i].orbitPath();
-    }
-  }
-  if (pHighlight == 1) {
-    orbiters[0].distHighlight();
-    orbiters[0].orbitHighlight();
-  } 
-  if (pHighlight == 2) {
-    orbiters[1].distHighlight();
-    orbiters[1].orbitHighlight();
-  } 
-  if (pHighlight == 3) {
-    orbiters[2].distHighlight();
-    orbiters[2].orbitHighlight();
-  } 
-  if (pHighlight == 4) {
-    orbiters[3].distHighlight();
-    orbiters[3].orbitHighlight();
-  } 
-  if (pHighlight == 5) {
-    orbiters[4].distHighlight();
-    orbiters[4].orbitHighlight();
-  } 
 
-  // OSC Sends to Max for Planets
-  for (int i = 0; i < orbiters.length; i++) {
-    OscMessage planetI = new OscMessage("/planet" + i);
-    planetI.add(orbiters[i].theta);           // Theta
-    
-    planetI.add(orbiters[i].orbitRadius.x);            // X Radius
-    planetI.add(orbiters[i].orbitRadius.z);            // Z Radius
-    
-    planetI.add(orbiters[i].position.x);            // X location
-    planetI.add(orbiters[i].position.z);            // Z location
-    
-    planetI.add(orbiters[i].rotation.y);       // Y rotation
-    
-    planetI.add(orbiters[i].rotationSpeed);   // Rotation Speed
-    planetI.add(orbiters[i].diameter);        // Planet diameter
-    planetI.add(orbiters[i].orbitSpeed);      // Planet orbit speed
-    planetI.add(orbiters[i].orbiterColor);     // Planet Color
-    oscP5.send(planetI, myRemoteLocation);
-  }  
+  sendParameters();
 }
 
 // OSC Reciever from Max
 void oscEvent(OscMessage theOscMessage) {
-  // Check if theOscMessage has the address pattern we are looking for. 
-  if (theOscMessage.checkAddrPattern("/emit1") == true) {
-    emitter = 1;
-  }
-  if (theOscMessage.checkAddrPattern("/emit2") == true) {
-    emitter = 2; 
-  }
-  if (theOscMessage.checkAddrPattern("/emit3") == true) {
-    emitter = 3;
-  }
-  if (theOscMessage.checkAddrPattern("/emit4") == true) {
-    emitter = 4;
-  }
-  if (theOscMessage.checkAddrPattern("/emit5") == true) {
-    emitter = 5;
-  }
-  
-  // Planet highlights
-  if (theOscMessage.checkAddrPattern("/highlight0") == true) {
-    pHighlight = 0;
-  }
-  if (theOscMessage.checkAddrPattern("/highlight1") == true) {
-    pHighlight = 1;
-  }
-  if (theOscMessage.checkAddrPattern("/highlight2") == true) {
-    pHighlight = 2;
-  }
-  if (theOscMessage.checkAddrPattern("/highlight3") == true) {
-    pHighlight = 3;
-  }
-  if (theOscMessage.checkAddrPattern("/highlight4") == true) {
-    pHighlight = 4;
-  }
-  if (theOscMessage.checkAddrPattern("/highlight5") == true) {
-    pHighlight = 5;
-  }
+  println(theOscMessage);
 }
