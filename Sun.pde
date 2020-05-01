@@ -26,14 +26,16 @@ class Sun {
   
   void display() {
     pushMatrix(); 
-    translate(width/2, height/2);
-    //fill(sunColor);
-    stroke(255, 175, 0);
-    sphereDetail(10);
-    rotateX(90);
-    sunRotationY -= sunRotationSpeed;
-    rotateY(radians(-sunRotationY));
-    sphere(sunSize);
+      translate(width/2, height/2);
+      pushStyle();
+        stroke(255, 175, 0);
+        noFill();
+        sphereDetail(10);
+        rotateX(90);
+        sunRotationY -= sunRotationSpeed;
+        rotateY(radians(-sunRotationY));
+        sphere(sunSize);
+      popStyle();
     popMatrix();
     
     // OSC Sends for sun

@@ -36,19 +36,22 @@ class Orbiter {
             position.x = orbitRadius.x * sin(theta);
             position.z = orbitRadius.z * cos(theta);
 
-            translate(position.x, position.z);
-            sphereDetail(7);
-            rotateX(90);
-            rotateY(radians(-rotation.y));
+
 
             pushStyle();
+                translate(position.x, position.z);
+                sphereDetail(7);
+                rotateX(90);
+                rotateY(radians(-rotation.y));
                 stroke(orbiterColor);
                 noFill();
                 sphere(diameter);
+            popStyle();
 
-                stroke(255);
+            pushStyle();
+                stroke(100);
                 noFill();
-                rotate(90);
+                rotateX(90);
                 ellipse(0, 0, 130, 150);
             popStyle();
         

@@ -31,58 +31,48 @@ float         angle = 0;
 float         delta = radians(0.25);
 
 // Planet properties
-float planetDistanceX;
-float planetDistanceZ;
+PVector planetDist = new PVector(0.0, 0.0, 0.0);
 float planetSize;
 color[] planetColor = new color[5];
 color[] moonColor = new color[5];
 
 // Camera
-float cameraX, cameraY, cameraZ;
-float cameraTan;
-float cameraRadX, cameraRadZ;
-float cameraTheta;
-float cameraOrbitSpeed;
+PVector camPos = new PVector(700.0, 2200.0, 600.0);
+PVector camRad = new PVector(700.0, 0.0, 600.0);
+float cameraTan = tan(PI/8.0);
+float cameraTheta = 0;
+float cameraOrbitSpeed = 0.001;
 
 // OSC variables
 int emitter;
 int pHighlight;
 
 void setup() {
-  size(1440, 850, OPENGL);
+  size(1280, 720, OPENGL);
   smooth(8);
   frameRate(60);
   
   // Stars
-  for(int nb=0; nb<nbStarsMax; nb++) {
+  for (int nb = 0; nb < nbStarsMax; nb++) {
     tabStars[nb] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
-                               (-random(depth * 255)), random(1, maxStarsSpeed));
+                            (-random(depth * 255)), random(1, maxStarsSpeed));
   }
   
   // Emitter initialization
   emitter = 0;
   pHighlight = 0;
   
-  cameraX = 700;
-  cameraY = 2200;
-  cameraZ = 600;
-  cameraTan = tan(PI/8.0);
-  cameraRadX = 700; 
-  cameraRadZ = 600;
-  cameraTheta = 0;
-  cameraOrbitSpeed = 0.001;
-  
   // Initializing planet size and orbit distance
   for (int i = 0; i < planet.length; i++) {
-    planetDistanceX = 297 + i * 300;
-    planetDistanceZ = 203 + i * 250;
+    planetDist.x = 297 + i * 300;
+    planetDist.z = 203 + i * 250;
     planetSize = random(25, 50);
     planetColor[0] = color(170, 0, 0);
     planetColor[1] = color(0, 0, 170);
     planetColor[2] = color(170, 170, 0);
     planetColor[3] = color(0, 170, 0);
     planetColor[4] = color(90, 0, 170);
-    planet[i] = new Orbiter(new PVector(planetDistanceX, 0, planetDistanceZ), planetSize, planetColor[i]);
+    planet[i] = new Orbiter(new PVector(planetDist.x, 0, planetDist.z), planetSize, planetColor[i]);
   }
   
 
@@ -103,15 +93,15 @@ void draw() {
   beginCamera();
   perspective();
   if (mousePressed && mouseButton == LEFT) {
-    cameraX = mouseX;
-    cameraZ = mouseY;
+    camPos.x = mouseX;
+    camPos.z = mouseY;
   }
     
   cameraTheta += cameraOrbitSpeed;
-  cameraX = cameraRadX * cos(cameraTheta);
-  cameraZ = cameraRadZ * sin(cameraTheta);
+  camPos.x = camRad.x * cos(cameraTheta);
+  camPos.z = camRad.z * sin(cameraTheta);
     
-  camera(cameraX, cameraY, cameraZ / cameraTan, width/2, height/2, 0, 0, 1, 0);
+  camera(camPos.x, camPos.y, camPos.z / cameraTan, width/2, height/2, 0, 0, 1, 0);
   endCamera();
  
   sun.display();
