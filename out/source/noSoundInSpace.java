@@ -27,7 +27,7 @@ OscP5 oscP5;
 OscP5 oscP52;
 NetAddress myRemoteLocation;
 
-Orbiter[] planet = new Orbiter[5];
+Orbiter[] orbiters = new Orbiter[5];
 Sun sun = new Sun();
 
 int zeroSun;
@@ -39,8 +39,7 @@ Stars[]       tabStars      = new Stars[nbStarsMax];
 int           maxStarsSpeed = 5;
  
 // Drawing parameters
-int           sizeX = 1440;
-int           sizeY = 850;
+PVector starBox = new PVector(2000, 2000, 2000);
 int           taille = 1;
 int           transparency = 255;
  
@@ -52,8 +51,14 @@ float         delta = radians(0.25f);
 // Planet properties
 PVector planetDist = new PVector(0.0f, 0.0f, 0.0f);
 float planetSize;
-int[] planetColor = new int[5];
-int[] moonColor = new int[5];
+
+int[] planetColor = new int[] {
+  color(170, 0, 0),
+  color(0, 0, 170),
+  color(170, 170, 0),
+  color(0, 170, 0),
+  color(90, 0, 170)
+};
 
 // Camera
 PVector camPos = new PVector(700.0f, 2200.0f, 600.0f);
@@ -72,28 +77,23 @@ public void setup() {
   frameRate(60);
   
   // Stars
-  for (int nb = 0; nb < nbStarsMax; nb++) {
-    tabStars[nb] = new Stars(random(-2 * width, 2 * width), random(-2 * height, 2 * height),
-                            (-random(depth * 255)), random(1, maxStarsSpeed));
+  for (int i = 0; i < nbStarsMax; ++i) {
+    tabStars[i] = new Stars(random(-2 * width, 2 * width), 
+                             random(-2 * height, 2 * height),
+                            -random(depth * 255), 
+                             random(1, maxStarsSpeed));
   }
   
   // Emitter initialization
   emitter = 0;
   pHighlight = 0;
   
-
-  
   // Initializing planet size and orbit distance
-  for (int i = 0; i < planet.length; i++) {
+  for (int i = 0; i < orbiters.length; ++i) {
     planetDist.x = 297 + i * 300;
     planetDist.z = 203 + i * 250;
     planetSize = random(25, 50);
-    planetColor[0] = color(170, 0, 0);
-    planetColor[1] = color(0, 0, 170);
-    planetColor[2] = color(170, 170, 0);
-    planetColor[3] = color(0, 170, 0);
-    planetColor[4] = color(90, 0, 170);
-    planet[i] = new Orbiter(new PVector(planetDist.x, 0, planetDist.z), planetSize, planetColor[i]);
+    orbiters[i] = new Orbiter(new PVector(planetDist.x, 0, planetDist.z), planetSize, planetColor[i]);
   }
   
 
@@ -113,10 +113,6 @@ public void draw() {
   // Camera
   beginCamera();
   perspective();
-  if (mousePressed && mouseButton == LEFT) {
-    camPos.x = mouseX;
-    camPos.z = mouseY;
-  }
     
   cameraTheta += cameraOrbitSpeed;
   camPos.x = camRad.x * cos(cameraTheta);
@@ -127,12 +123,11 @@ public void draw() {
  
   sun.display();
 
-  // Drawing planets
-  for (int i = 0; i < planet.length; i++) {
-    planet[i].orbitPath(); 
-    planet[i].update();
-    planet[i].display();
-    planet[i].planetDistance();
+  for (Orbiter orbiter : orbiters) {
+    orbiter.orbitPath(); 
+    orbiter.update();
+    orbiter.display();
+    orbiter.planetDistance();
   }
   
   // Triggers emitters
@@ -145,47 +140,47 @@ public void draw() {
   // Triggers highlights
   if (pHighlight == 0) {
     for (int i = 0; i < 5; i++) {
-      planet[i].orbitPath();
+      orbiters[i].orbitPath();
     }
   }
   if (pHighlight == 1) {
-    planet[0].distHighlight();
-    planet[0].orbitHighlight();
+    orbiters[0].distHighlight();
+    orbiters[0].orbitHighlight();
   } 
   if (pHighlight == 2) {
-    planet[1].distHighlight();
-    planet[1].orbitHighlight();
+    orbiters[1].distHighlight();
+    orbiters[1].orbitHighlight();
   } 
   if (pHighlight == 3) {
-    planet[2].distHighlight();
-    planet[2].orbitHighlight();
+    orbiters[2].distHighlight();
+    orbiters[2].orbitHighlight();
   } 
   if (pHighlight == 4) {
-    planet[3].distHighlight();
-    planet[3].orbitHighlight();
+    orbiters[3].distHighlight();
+    orbiters[3].orbitHighlight();
   } 
   if (pHighlight == 5) {
-    planet[4].distHighlight();
-    planet[4].orbitHighlight();
+    orbiters[4].distHighlight();
+    orbiters[4].orbitHighlight();
   } 
 
   // OSC Sends to Max for Planets
-  for (int i = 0; i < planet.length; i++) {
+  for (int i = 0; i < orbiters.length; i++) {
     OscMessage planetI = new OscMessage("/planet" + i);
-    planetI.add(planet[i].theta);           // Theta
+    planetI.add(orbiters[i].theta);           // Theta
     
-    planetI.add(planet[i].orbitRadius.x);            // X Radius
-    planetI.add(planet[i].orbitRadius.z);            // Z Radius
+    planetI.add(orbiters[i].orbitRadius.x);            // X Radius
+    planetI.add(orbiters[i].orbitRadius.z);            // Z Radius
     
-    planetI.add(planet[i].position.x);            // X location
-    planetI.add(planet[i].position.z);            // Z location
+    planetI.add(orbiters[i].position.x);            // X location
+    planetI.add(orbiters[i].position.z);            // Z location
     
-    planetI.add(planet[i].rotation.y);       // Y rotation
+    planetI.add(orbiters[i].rotation.y);       // Y rotation
     
-    planetI.add(planet[i].rotationSpeed);   // Rotation Speed
-    planetI.add(planet[i].diameter);        // Planet diameter
-    planetI.add(planet[i].orbitSpeed);      // Planet orbit speed
-    planetI.add(planet[i].orbiterColor);     // Planet Color
+    planetI.add(orbiters[i].rotationSpeed);   // Rotation Speed
+    planetI.add(orbiters[i].diameter);        // Planet diameter
+    planetI.add(orbiters[i].orbitSpeed);      // Planet orbit speed
+    planetI.add(orbiters[i].orbiterColor);     // Planet Color
     oscP5.send(planetI, myRemoteLocation);
   }  
 }
@@ -654,15 +649,15 @@ class Stars {
     pushMatrix();
     pushStyle();
     strokeWeight(3);
-    stroke(250+z/depth,transparency);
-    point(x,y,z);
+    stroke(250 + z / depth, transparency);
+    point(x, y, z);
     popStyle();
     popMatrix();
   }
    
   public void anim() {
     z = z + dZ;
-    if(z>=0)
+    if(z >= 0)
       z = -1023.0f;
   }
 }

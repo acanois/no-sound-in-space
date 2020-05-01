@@ -14,15 +14,15 @@ class Stars {
     pushMatrix();
     pushStyle();
     strokeWeight(3);
-    stroke(250+z/depth,transparency);
-    point(x,y,z);
+    stroke(250 + z / depth, transparency);
+    point(x, y, z);
     popStyle();
     popMatrix();
   }
    
   void anim() {
     z = z + dZ;
-    if(z>=0)
+    if(z >= 0)
       z = -1023.0;
   }
 }
