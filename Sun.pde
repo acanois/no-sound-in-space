@@ -76,7 +76,7 @@ class Sun {
     }
     if (zeroSun == 1) {
       //sun.burst_initialize();
-  }
+    }
       
   }
   

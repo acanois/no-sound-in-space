@@ -30,18 +30,16 @@ NetAddress myRemoteLocation;
 Orbiter[] orbiters = new Orbiter[5];
 Sun sun = new Sun();
 
-int zeroSun;
-
 // Stars parameters
-int           depth         = 40;
-int           nbStarsMax    = 5000;
-Stars[]       tabStars      = new Stars[nbStarsMax];
-int           maxStarsSpeed = 5;
+int depth = 40;
+int numStars = 5000;
+int starSpeed = 5;
+
+Stars[] tabStars = new Stars[numStars];
  
 // Drawing parameters
 PVector starBox = new PVector(2000, 2000, 2000);
-int           taille = 1;
-int           transparency = 255;
+int transparency = 255;
  
 // Rotation variable
 int           rotationMode = 3;
@@ -63,21 +61,23 @@ int[] planetColor = new int[] {
 // Camera
 PVector camPos = new PVector(700.0f, 2200.0f, 600.0f);
 PVector camRad = new PVector(700.0f, 0.0f, 600.0f);
+
 float cameraTan = tan(PI/8.0f);
 float cameraTheta = 0;
 float cameraOrbitSpeed = 0.001f;
 
+// ===================================================================================
 public void setup() {
   
   
   frameRate(60);
   
   // Stars
-  for (int i = 0; i < nbStarsMax; ++i) {
+  for (int i = 0; i < numStars; ++i) {
     tabStars[i] = new Stars(random(-2 * width, 2 * width), 
                              random(-2 * height, 2 * height),
                             -random(depth * 255), 
-                             random(1, maxStarsSpeed));
+                             random(1, starSpeed));
   }
   
   for (int i = 0; i < orbiters.length; ++i) {
@@ -94,6 +94,7 @@ public void setup() {
   myRemoteLocation = new NetAddress("127.0.0.1", 15000);
 }
 
+// ===================================================================================
 public void sendParameters() {
   for (int i = 0; i < orbiters.length; i++) {
     OscMessage planetI = new OscMessage("/planet" + i);
@@ -112,6 +113,7 @@ public void sendParameters() {
   }  
 }
 
+// ===================================================================================
 public void updateCamera() {
     // Camera
   beginCamera();
@@ -125,12 +127,14 @@ public void updateCamera() {
   endCamera();
 }
 
+// ===================================================================================
 public void updateStars() {
-    for(int i = 0; i < nbStarsMax; ++i) {
-    tabStars[i].aff();
+    for(int i = 0; i < numStars; ++i) {
+    tabStars[i].display();
   }
 }
 
+// ===================================================================================
 public void draw() {
   background(0);
   updateStars();
@@ -571,7 +575,7 @@ class Stars {
     dZ = speedZ;
   }
    
-  public void aff() {
+  public void display() {
     translate(0, 0, 20);
     pushMatrix();
     pushStyle();
@@ -580,12 +584,6 @@ class Stars {
     point(x, y, z);
     popStyle();
     popMatrix();
-  }
-   
-  public void anim() {
-    z = z + dZ;
-    if(z >= 0)
-      z = -1023.0f;
   }
 }
 // Sun
@@ -666,7 +664,7 @@ class Sun {
     }
     if (zeroSun == 1) {
       //sun.burst_initialize();
-  }
+    }
       
   }
   

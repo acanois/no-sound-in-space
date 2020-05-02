@@ -11,18 +11,16 @@ NetAddress myRemoteLocation;
 Orbiter[] orbiters = new Orbiter[5];
 Sun sun = new Sun();
 
-int zeroSun;
-
 // Stars parameters
-int           depth         = 40;
-int           nbStarsMax    = 5000;
-Stars[]       tabStars      = new Stars[nbStarsMax];
-int           maxStarsSpeed = 5;
+int depth = 40;
+int numStars = 5000;
+int starSpeed = 5;
+
+Stars[] tabStars = new Stars[numStars];
  
 // Drawing parameters
 PVector starBox = new PVector(2000, 2000, 2000);
-int           taille = 1;
-int           transparency = 255;
+int transparency = 255;
  
 // Rotation variable
 int           rotationMode = 3;
@@ -44,21 +42,23 @@ color[] planetColor = new color[] {
 // Camera
 PVector camPos = new PVector(700.0, 2200.0, 600.0);
 PVector camRad = new PVector(700.0, 0.0, 600.0);
+
 float cameraTan = tan(PI/8.0);
 float cameraTheta = 0;
 float cameraOrbitSpeed = 0.001;
 
+// ===================================================================================
 void setup() {
   size(1280, 720, OPENGL);
   smooth(8);
   frameRate(60);
   
   // Stars
-  for (int i = 0; i < nbStarsMax; ++i) {
+  for (int i = 0; i < numStars; ++i) {
     tabStars[i] = new Stars(random(-2 * width, 2 * width), 
                              random(-2 * height, 2 * height),
                             -random(depth * 255), 
-                             random(1, maxStarsSpeed));
+                             random(1, starSpeed));
   }
   
   for (int i = 0; i < orbiters.length; ++i) {
@@ -75,6 +75,7 @@ void setup() {
   myRemoteLocation = new NetAddress("127.0.0.1", 15000);
 }
 
+// ===================================================================================
 void sendParameters() {
   for (int i = 0; i < orbiters.length; i++) {
     OscMessage planetI = new OscMessage("/planet" + i);
@@ -93,6 +94,7 @@ void sendParameters() {
   }  
 }
 
+// ===================================================================================
 void updateCamera() {
     // Camera
   beginCamera();
@@ -106,12 +108,14 @@ void updateCamera() {
   endCamera();
 }
 
+// ===================================================================================
 void updateStars() {
-    for(int i = 0; i < nbStarsMax; ++i) {
-    tabStars[i].aff();
+    for(int i = 0; i < numStars; ++i) {
+    tabStars[i].display();
   }
 }
 
+// ===================================================================================
 void draw() {
   background(0);
   updateStars();

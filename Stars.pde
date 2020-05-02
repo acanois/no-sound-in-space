@@ -9,7 +9,7 @@ class Stars {
     dZ = speedZ;
   }
    
-  void aff() {
+  void display() {
     translate(0, 0, 20);
     pushMatrix();
     pushStyle();
@@ -18,11 +18,5 @@ class Stars {
     point(x, y, z);
     popStyle();
     popMatrix();
-  }
-   
-  void anim() {
-    z = z + dZ;
-    if(z >= 0)
-      z = -1023.0;
   }
 }
